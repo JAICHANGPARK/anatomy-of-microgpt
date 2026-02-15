@@ -198,18 +198,19 @@ lm_head -> logits                            (L143)
 
 ```mermaid
 flowchart TD
-    A[token_id,pos_id] --> B[wte[token] + wpe[pos]]
-    B --> C[RMSNorm]
-    C --> D[Q,K,V = linear(x, Wq/Wk/Wv)]
-    D --> E[append k,v to KV cache]
-    E --> F[attn_logits = q·k/sqrt(d) | softmax]
-    F --> G[weighted sum of V]
-    G --> H[WO projection]
-    H --> I[Residual add]
-    I --> J[RMSNorm]
-    J --> K[MLP: FC1 -> ReLU -> FC2]
-    K --> L[Residual add]
-    L --> M[lm_head -> logits]
+    A["token_id, pos_id"] --> B["wte(token) + wpe(pos)"]
+    B --> C["RMSNorm"]
+    C --> D["Q,K,V = linear(x, Wq/Wk/Wv)"]
+    D --> E["append K,V to KV cache"]
+    E --> F["attn logits = (q dot k) / sqrt(d_head)"]
+    F --> G["softmax -> attn weights"]
+    G --> H["weighted sum of V"]
+    H --> I["Wo projection"]
+    I --> J["residual add"]
+    J --> K["RMSNorm"]
+    K --> L["MLP: FC1, ReLU, FC2"]
+    L --> M["residual add"]
+    M --> N["lm_head -> logits"]
 ```
 
 
